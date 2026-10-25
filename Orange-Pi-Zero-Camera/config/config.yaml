@@ -1,0 +1,96 @@
+# Bottle Wi-Fi Vendo — Orange Pi Zero 3 application config (non-secret).
+# Secrets (MikroTik credentials) live in .env — never here.
+# See docs/architecture/02-low-level-architecture.md §5.
+
+hardware:
+  board: "Orange Pi Zero 3"
+  ram: "1.5GB"
+
+camera:
+  device: 0
+  width: 1280
+  height: 720
+  fourcc: "MJPG"          # force MJPEG to cut USB bandwidth + RAM
+  warmup_frames: 2        # frames discarded after open for auto-exposure to settle
+  capture_backend: "auto" # "auto" | "opencv" | "v4l2ctl". OpenCV's V4L2 read() is
+                          # flaky on the H618 (intermittent timeouts even at 480M);
+                          # v4l2-ctl grabs MJPG reliably. auto = v4l2-ctl on a Linux
+                          # device path when the tool is present, else OpenCV.
+
+detection:
+  backend: "ncnn"         # "ncnn" (real) | "mock" (no model, for bench/dev)
+  imgsz: 480
+  confidence: 0.70        # decision-engine accept gate
+  required_positive_frames: 3   # agreeing frames in the window -> verdict
+  total_frames: 5               # sliding-window size (also the /detect burst)
+  frame_delay_ms: 100           # gap between frames in a /detect dry-run burst
+  # --- continuous (camera-triggered) detection: there is no IR sensor ---
+  continuous: true        # false = only the /detect dry-run can look at the chute
+  always_on: false        # true = scan even with no portal session (burns CPU)
+  scan_interval_ms: 0     # extra pause between frames; 0 = as fast as inference
+  arm_poll_ms: 250        # how often to check whether a session opened
+  required_clear_frames: 3  # empty frames needed before the next bottle counts
+  flush_frames: 0         # discard N queued frames per read if the feed lags
+  cooldown_ms: 2000       # minimum quiet time after a servo sequence
+  num_threads: 3          # NCNN threads (leave 1 core of 4 free)
+  borderline_margin: 0.15 # conf within this of the gate -> collect a sample
+  classes: ["plastic_bottle", "reject_object"]
+  nms_conf: 0.25          # detector pre-filter (below the decision gate)
+  nms_iou: 0.45
+  model_input: "in0"      # Ultralytics YOLOv8 NCNN export blob names
+  model_output: "out0"
+
+serial:
+  port: "auto"            # "auto" | "/dev/ttyACM0" | "/dev/serial/by-id/..."
+  baudrate: 115200
+  ack_timeout_ms: 500
+  ack_retries: 3
+  servo_complete_timeout_ms: 6000
+  ping_interval_ms: 5000
+
+servo:                    # informational mirror of arduino-uno-vendo/include/config.h
+  accept_idle: 5
+  accept_dump: 175
+  reject_idle: 5
+  reject_dump: 175
+  hold_ms: 1800
+
+validation:                 # deploy gate (Phase 13/14); FAR is the hard gate
+  max_false_acceptance_rate: 0.02
+  min_recall: 0.90
+  min_map50: 0.80
+
+reward:
+  minutes_per_bottle: 15        # confirmed with user (was 5); matches prior ESP32 setup
+  max_bottles_per_session: 5
+  wait_time_ms: 90000
+  session_stale_ms: 180000
+  retry_interval_ms: 30000  # PENDING reward drain interval
+  standalone_mode: false  # true = grant on accept without a portal session
+
+portal_api:
+  host: "0.0.0.0"
+  port: 80
+  static_ip_hint: "10.10.10.252"   # drop-in for the ESP32-CAM the portal expects
+
+dataset:
+  dir: "./dataset"
+  min_free_mb: 500
+  jpeg_quality: 85
+
+paths:
+  db: "./database/bottle_vendo.db"
+  models_production: "./models/production"
+  models_candidate: "./models/candidate"
+  logs: "./logs"
+
+health:
+  interval_ms: 10000
+  cpu_temp_warn_c: 75
+  ram_warn_pct: 85
+  disk_warn_mb: 500
+
+logging:
+  level: "INFO"
+  rotate_mb: 5
+  backups: 5

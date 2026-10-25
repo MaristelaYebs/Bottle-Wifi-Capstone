@@ -1,0 +1,12 @@
+{
+  "C_Cpp.files.exclude": {
+    "**/.pio/libdeps/**/TensorFlowLite_ESP32/src/screen/**": true
+  },
+  "files.watcherExclude": {
+    "**/.pio/libdeps/**/TensorFlowLite_ESP32/src/screen/**": true
+  },
+  "files.exclude": {
+    "**/.pio/libdeps/**/TensorFlowLite_ESP32/src/screen": true
+  },
+  "cmake.sourceDirectory": "C:/Jay Workfiles/BU Capstone/BUPC-Bottle-Vendo-Wifi/ESP32-CAM-Vendo/lib/Unity"
+}

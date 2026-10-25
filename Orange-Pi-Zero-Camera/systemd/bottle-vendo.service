@@ -1,0 +1,41 @@
+# systemd unit for the Bottle Wi-Fi Vendo Orange Pi application.
+#
+# This is a documented EXAMPLE. Prefer `scripts/install.sh`, which generates a
+# unit with the correct paths/user for wherever you cloned the repo. To use this
+# file directly, edit WorkingDirectory / ExecStart / User to match your install,
+# then:
+#   sudo cp bottle-vendo.service /etc/systemd/system/
+#   sudo systemctl daemon-reload && sudo systemctl enable --now bottle-vendo
+# Boot flow (spec §28): network-online -> service -> DB -> model -> camera ->
+# Arduino -> MikroTik check -> READY.
+
+[Unit]
+Description=AI Bottle Wi-Fi Vendo (Orange Pi Zero 3)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=orangepi
+WorkingDirectory=/opt/bottle-vendo
+ExecStart=/opt/bottle-vendo/.venv/bin/python /opt/bottle-vendo/main.py
+Environment=PYTHONUNBUFFERED=1
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=15
+
+# Portal API binds :80 without running as root:
+AmbientCapabilities=CAP_NET_BIND_SERVICE
+
+# Memory guardrail for the 1.5 GB board (tune after profiling):
+MemoryMax=700M
+
+# Access to USB webcam + Arduino serial:
+SupplementaryGroups=video dialout
+
+# Logs go to the journal (journalctl -u bottle-vendo) in addition to logs/.
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

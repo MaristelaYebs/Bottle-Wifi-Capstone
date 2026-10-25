@@ -1,0 +1,15 @@
+# Training/export dependencies — INSTALL ON THE PC/GPU BOX ONLY.
+# Do NOT install these on the Orange Pi (see requirements.txt for the Pi runtime).
+
+ultralytics>=8.2        # YOLO train/val/export
+# torch + torchvision: install the build matching your CUDA/CPU from pytorch.org,
+# e.g.  pip install torch torchvision --index-url https://download.pytorch.org/whl/cu121
+torch
+torchvision
+opencv-python
+cv2-enumerate-cameras; platform_system == "Windows"
+Pillow
+PyYAML
+
+# NCNN export backend (Ultralytics pulls pnnx/ncnn on first export; pin if needed):
+ncnn

@@ -1,0 +1,26 @@
+# Bottle Wi-Fi Vendo — Orange Pi Zero 3 (aarch64) runtime dependencies.
+# Keep lightweight for the 1.5 GB / CPU-only target. Pin exact versions in Phase 5+
+# once verified on-device. Heavy training deps (ultralytics/torch) are NOT installed
+# on the Pi — training happens off-device (see scripts/ + Phase 12).
+
+# --- core runtime ---
+pyserial>=3.5            # Arduino USB serial
+opencv-python-headless   # camera capture + image ops (headless = no GUI/X deps)
+numpy                    # array ops (opencv dependency)
+PyYAML>=6.0              # config.yaml
+python-dotenv>=1.0       # .env secrets
+
+# --- inference ---
+ncnn                     # YOLO-Nano deployment runtime (aarch64 wheels / build)
+
+# --- portal HTTP API (JuanFi-compatible) ---
+waitress>=2.1            # pure-Python WSGI server (ARM-safe)
+
+# --- MikroTik RouterOS API ---
+librouteros>=3.2         # RouterOS API client (pure Python)
+
+# --- health monitoring ---
+psutil>=5.9              # RAM/CPU/disk; CPU temp via sysfs fallback
+
+# NOTE: ultralytics, torch, torchvision are for the PC/GPU training box only —
+# see scripts/train.py. Do not install them on the Orange Pi.

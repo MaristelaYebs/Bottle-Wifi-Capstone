@@ -1,0 +1,16 @@
+{
+  "transaction_id": "TXN-20260919-000007",
+  "timestamp": "2026-09-19T20:43:10",
+  "image_path": "C:\\Jay Workfiles\\BU Capstone\\BUPC-Bottle-Vendo-Wifi\\Orange-Pi-Zero-Camera\\dataset\\_bench\\incoming\\TXN-20260919-000007.jpg",
+  "prediction": "none",
+  "confidence": 0.6692,
+  "decision": "REJECT",
+  "logical": "EMPTY",
+  "positive_frames": 0,
+  "total_frames": 5,
+  "model_version": "bottle-v1",
+  "collect_reasons": [
+    "no valid bottle detected",
+    "borderline confidence"
+  ]
+}

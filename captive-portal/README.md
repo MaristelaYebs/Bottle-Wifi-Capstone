@@ -1,0 +1,2 @@
+# captive-portal
+Hotspot Template

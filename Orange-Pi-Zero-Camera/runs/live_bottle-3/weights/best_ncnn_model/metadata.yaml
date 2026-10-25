@@ -1,0 +1,21 @@
+description: Ultralytics best model trained on C:\Jay Workfiles\BU Capstone\BUPC-Bottle-Vendo-Wifi\Orange-Pi-Zero-Camera\dataset\dataset.yaml
+author: Ultralytics
+date: '2026-09-19T20:23:48.033940+08:00'
+version: 8.4.155
+license: AGPL-3.0 License (https://ultralytics.com/license)
+docs: https://docs.ultralytics.com
+stride: 32
+task: detect
+head: Detect
+batch: 1
+imgsz:
+- 480
+- 480
+names:
+  0: plastic_bottle
+  1: reject_object
+args:
+  batch: 1
+  quantize: null
+channels: 3
+end2end: false

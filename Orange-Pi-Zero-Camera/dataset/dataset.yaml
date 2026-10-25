@@ -1,0 +1,19 @@
+# YOLO dataset config for the Bottle Wi-Fi Vendo detector.
+# Used by scripts/train.py and scripts/validate.py (on the PC/GPU box).
+# The dataset root is this file's own folder: with no `path:` key Ultralytics
+# falls back to the YAML's directory, so this works on the PC and on the Pi.
+# Do NOT set `path: .` -- a relative path resolves against the CWD (or against
+# Ultralytics' datasets_dir), not against this file. Populate the splits per
+# dataset/LABELING.md before training.
+
+train: train/images
+val: val/images
+test: test/images
+
+# Class order MUST match config/config.yaml detection.classes and the label files.
+names:
+  0: plastic_bottle
+  1: reject_object
+
+# EMPTY is NOT a class. Teach it with background/negative images (no label file,
+# or an empty .txt) so the model learns what an empty chute looks like.

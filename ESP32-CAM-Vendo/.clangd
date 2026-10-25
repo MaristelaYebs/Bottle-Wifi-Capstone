@@ -1,0 +1,7 @@
+# Unused LCD drivers inside TensorFlowLite_ESP32 (ili9341.c, st7789.c, …).
+# This project has no display; those files are not part of the vendo firmware.
+# PathMatch must accept Windows backslashes.
+If:
+  PathMatch: .*TensorFlowLite_ESP32[/\\]src[/\\]screen[/\\].*
+Diagnostics:
+  Suppress: "*"

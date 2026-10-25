@@ -1,0 +1,37 @@
+# --- secrets ---
+.env
+
+# --- python ---
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+
+# --- runtime data (keep dirs via .gitkeep, ignore contents) ---
+logs/*
+!logs/.gitkeep
+database/*.db
+database/*.db-wal
+database/*.db-shm
+
+# collected images (large) — transferred off-device for training
+dataset/incoming/*
+!dataset/incoming/.gitkeep
+dataset/reviewed/*
+!dataset/reviewed/.gitkeep
+
+# model binaries (managed out-of-band / released, not committed)
+models/**/*.bin
+models/**/*.param
+models/**/*.pt
+models/**/*.onnx
+!models/**/.gitkeep
+
+# --- os ---
+.DS_Store
+Thumbs.db
+runs/live_bottle-3/weights/best_ncnn_model/model.ncnn.bin

@@ -1,0 +1,21 @@
+description: Ultralytics best model trained on C:\Bottle Wifi\Captive Portal\Orange-Pi-Zero-Camera\dataset\dataset.yaml
+author: Ultralytics
+date: '2026-10-03T14:32:25.106093+08:00'
+version: 8.4.170
+license: AGPL-3.0 License (https://ultralytics.com/license)
+docs: https://docs.ultralytics.com
+stride: 32
+task: detect
+head: Detect
+batch: 1
+imgsz:
+- 480
+- 480
+names:
+  0: plastic_bottle
+  1: reject_object
+args:
+  batch: 1
+  quantize: null
+channels: 3
+end2end: false
